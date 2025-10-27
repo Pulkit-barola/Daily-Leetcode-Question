@@ -13,7 +13,7 @@ This repo documents my journey of solving **one (or more)** LeetCode problems ev
 
 ---
 
-##🤝 **Contributing**
+🤝 **Contributing**
 If you’d like to suggest optimizations or discuss approaches, feel free to open an issue or pull request.
 
 
