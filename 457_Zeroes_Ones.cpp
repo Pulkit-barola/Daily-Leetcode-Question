@@ -1,0 +1,55 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int t[101][101][601];
+
+// Recursive helper
+int solve(vector<pair<int, int>>& count, int m, int n, int index) {
+    // Base case
+    if (index >= count.size() || (m == 0 && n == 0))
+        return 0;
+
+    // If already computed
+    if (t[m][n][index] != -1)
+        return t[m][n][index];
+
+    int include = 0;
+    // Include current string if we can
+    if (count[index].first <= m && count[index].second <= n) {
+        include = 1 + solve(count, m - count[index].first, n - count[index].second, index + 1);
+    }
+
+    // Exclude current string
+    int exclude = solve(count, m, n, index + 1);
+
+    // Store and return max
+    return t[m][n][index] = max(include, exclude);
+}
+
+int findMaxForm(vector<string>& strs, int m, int n) {
+    int N = strs.size();
+    vector<pair<int, int>> count(N);
+
+    int i = 0;
+    for (string str : strs) {
+        int countOnes = 0, countZeros = 0;
+        for (char ch : str) {
+            if (ch == '1') countOnes++;
+            else countZeros++;
+        }
+        count[i++] = {countZeros, countOnes};
+    }
+
+    memset(t, -1, sizeof(t));
+    return solve(count, m, n, 0);
+}
+
+// Driver code (for local testing)
+int main() {
+    vector<string> strs = {"10", "0", "1"};
+    int m = 1, n = 1;
+
+    cout << "Maximum number of strings: " << findMaxForm(strs, m, n) << endl;
+
+    return 0;
+}
